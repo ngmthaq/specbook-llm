@@ -1,0 +1,12 @@
+.h-32px {
+    height: 32px;
+}
+
+.h-32px-left {
+    height: calc(100vh - 32px);
+}
+
+.w-md-editor {
+    border-radius: 0px !important;
+    height: calc(100vh - 32px) !important;
+}
