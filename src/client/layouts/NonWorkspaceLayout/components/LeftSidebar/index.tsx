@@ -3,15 +3,22 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LeftSidebarItem, SIDEBAR_ITEMS } from '../../../../configs';
+import { useLayoutAtom } from '../../../../stores';
 
 import classes from './LeftSidebar.module.css';
 
 export function LeftSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setIsOpenSecondSidebar } = useLayoutAtom();
 
   const handleItemClick = (item: LeftSidebarItem) => {
-    navigate(item.route);
+    if (location.pathname !== item.route) {
+      navigate(item.route);
+      setIsOpenSecondSidebar(true);
+    } else {
+      setIsOpenSecondSidebar((prev) => !prev);
+    }
   };
 
   return (

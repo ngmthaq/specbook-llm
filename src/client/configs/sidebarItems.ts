@@ -13,6 +13,11 @@ export const SIDEBAR_ITEMS: LeftSidebarItem[] = [
     icon: 'bi bi-folder2-open',
   },
   {
+    route: FULL_ROUTE_PATHS.AI_CHAT,
+    label: 'AI Assistant',
+    icon: 'bi bi-chat-left-dots',
+  },
+  {
     route: FULL_ROUTE_PATHS.SEARCH,
     label: 'Search',
     icon: 'bi bi-search',

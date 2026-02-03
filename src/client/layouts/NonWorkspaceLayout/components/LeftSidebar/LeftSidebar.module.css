@@ -1,13 +1,13 @@
 .leftSidebarBtn {
-    border-left: 3px solid transparent !important;
-    border-radius: 0 !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 !important;
 }
 
 .leftSidebarBtn:hover {
-    color: var(--bs-secondary-text-emphasis) !important;
+  color: var(--bs-secondary-text-emphasis) !important;
 }
 
 .leftSidebarBtn.active {
-    color: var(--bs-primary) !important;
-    border-left: 3px solid var(--bs-primary) !important;
+  color: var(--bs-primary) !important;
+  border-left: 3px solid var(--bs-primary) !important;
 }

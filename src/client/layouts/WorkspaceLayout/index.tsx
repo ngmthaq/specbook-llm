@@ -2,24 +2,28 @@ import React from 'react';
 import { Outlet } from 'react-router';
 
 import { SIZE } from '../../configs';
-import { NonWorkspaceLayout } from '../NonWorkspaceLayout';
+import { useLayoutAtom } from '../../stores';
 
-import { ChatPanel, WorkspaceEditor } from './components';
+import { WorkspaceEditor } from './components';
 
 export function WorkspaceLayout() {
+  const { isOpenSecondSidebar } = useLayoutAtom();
+
   return (
-    <NonWorkspaceLayout>
-      <div className="d-flex" style={{ height: SIZE.leftSidebar.height }}>
-        <div style={{ width: SIZE.folderTree.width, height: SIZE.folderTree.height }}>
+    <div className="d-flex">
+      {isOpenSecondSidebar && (
+        <div style={{ width: SIZE.secondSidebar.width, height: SIZE.secondSidebar.height }}>
           <Outlet />
         </div>
-        <div style={{ width: SIZE.workspaceEditor.width, height: SIZE.workspaceEditor.height }}>
-          <WorkspaceEditor />
-        </div>
-        <div style={{ width: SIZE.chatPanel.width, height: SIZE.chatPanel.height }}>
-          <ChatPanel />
-        </div>
+      )}
+      <div
+        style={{
+          width: isOpenSecondSidebar ? SIZE.workspaceEditor.width : '100%',
+          height: SIZE.workspaceEditor.height,
+        }}
+      >
+        <WorkspaceEditor />
       </div>
-    </NonWorkspaceLayout>
+    </div>
   );
 }
