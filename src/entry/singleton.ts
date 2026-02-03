@@ -6,7 +6,7 @@ export class Singleton {
 
   public static tray: Electron.Tray | null = null;
 
-  public static trayIconPath = path.resolve(__dirname, '../../assets/img/electron.png');
+  public static trayIconPath = path.resolve(__dirname, './assets/img/electron.png');
 
   public static trayIcon = nativeImage
     .createFromPath(Singleton.trayIconPath)
@@ -35,5 +35,6 @@ export class Singleton {
   public static tempPath = Singleton.isDev ? Singleton.devTempPath : app.getPath('temp');
 
   public static devLogPath = path.resolve(__dirname, '../../development_files/logs');
+
   public static logPath = Singleton.isDev ? Singleton.devLogPath : app.getPath('logs');
 }

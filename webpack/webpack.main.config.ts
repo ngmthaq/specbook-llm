@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { CopyAppAssetsPlugin } from './copy-app-asset.plugin';
 import { plugins } from './webpack.plugins';
 import { rules } from './webpack.rules';
 
@@ -15,7 +16,7 @@ export const mainConfig: Configuration = {
   module: {
     rules,
   },
-  plugins,
+  plugins: [...plugins, new CopyAppAssetsPlugin()],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
