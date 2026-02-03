@@ -1,5 +1,4 @@
 import { app, BrowserWindow, Menu, Tray } from 'electron';
-
 import { Singleton } from '../../entry/singleton';
 
 export class AppController {

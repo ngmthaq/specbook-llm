@@ -1,9 +1,7 @@
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-
 import MDEditor from '@uiw/react-md-editor';
 import React, { useState } from 'react';
-
 import { CLASSNAMES } from '../../../../configs';
 import { useThemeAtom } from '../../../../stores';
 

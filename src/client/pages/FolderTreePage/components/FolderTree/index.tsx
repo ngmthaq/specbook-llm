@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { CLASSNAMES } from '../../../../configs';
 import { useFolderTreeAtom } from '../../../../stores';
 import { TreeNode } from '../TreeNode';

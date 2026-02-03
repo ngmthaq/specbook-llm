@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { CLASSNAMES } from '../../../../configs';
 
 export function ChatPanel() {

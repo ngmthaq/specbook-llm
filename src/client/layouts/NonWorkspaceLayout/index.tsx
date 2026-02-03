@@ -1,8 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-
 import { SIZE } from '../../configs';
-
 import { LeftSidebar } from './components';
 
 export function NonWorkspaceLayout() {

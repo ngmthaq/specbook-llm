@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { HashRouter, Route, Routes } from 'react-router';
-
 import { LAYOUT_PATHS, ROUTE_PATHS } from './configs';
 import { NonWorkspaceLayout, WorkspaceLayout } from './layouts';
 import {

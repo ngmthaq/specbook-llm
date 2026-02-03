@@ -1,9 +1,7 @@
 import path from 'path';
-
 import { CopyAppAssetsPlugin } from './copy-app-asset.plugin';
 import { plugins } from './webpack.plugins';
 import { rules } from './webpack.rules';
-
 import type { Configuration } from 'webpack';
 
 export const mainConfig: Configuration = {

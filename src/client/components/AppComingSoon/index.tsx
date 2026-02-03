@@ -1,5 +1,4 @@
 import React from 'react';
-
 import classes from './AppComingSoon.module.css';
 
 export function AppComingSoon() {

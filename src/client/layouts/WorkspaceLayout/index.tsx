@@ -1,9 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-
 import { SIZE } from '../../configs';
 import { useFolderTreeAtom, useLayoutAtom } from '../../stores';
-
 import { PlaceholderEditor, WorkspaceEditor } from './components';
 
 export function WorkspaceLayout() {

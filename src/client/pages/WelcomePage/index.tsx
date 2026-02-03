@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-
 import { FULL_ROUTE_PATHS } from '../../configs';
 
 export function WelcomePage() {

@@ -1,5 +1,4 @@
 import path from 'path';
-
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
@@ -8,10 +7,8 @@ import { MakerZIP } from '@electron-forge/maker-zip';
 import { AutoUnpackNativesPlugin } from '@electron-forge/plugin-auto-unpack-natives';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { WebpackPlugin } from '@electron-forge/plugin-webpack';
-
 import { mainConfig } from './webpack/webpack.main.config';
 import { rendererConfig } from './webpack/webpack.renderer.config';
-
 import type { ForgeConfig } from '@electron-forge/shared-types';
 
 const config: ForgeConfig = {
