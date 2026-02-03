@@ -10,3 +10,7 @@
   border-radius: 0px !important;
   height: calc(100vh - 32px) !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
