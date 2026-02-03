@@ -6,34 +6,9 @@ export interface ITreeNode {
   children?: ITreeNode[];
 }
 
-export const folderTreeAtom = atom<ITreeNode[] | null>([
-  {
-    name: 'src',
-    type: 'folder',
-    children: [
-      {
-        name: 'index.ts',
-        type: 'file',
-      },
-      {
-        name: 'components',
-        type: 'folder',
-        children: [
-          {
-            name: 'App.tsx',
-            type: 'file',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'package.json',
-    type: 'file',
-  },
-]);
+export const folderTreeAtom = atom<ITreeNode[]>();
 
-export const selectedFileAtom = atom<string>('');
+export const selectedFileAtom = atom<string>();
 
 export const expandedFoldersAtom = atom<Set<string>>(new Set<string>());
 

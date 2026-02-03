@@ -4,11 +4,11 @@ export const SIZE = {
     height: '100vh',
   },
   secondSidebar: {
-    width: '300px',
+    width: '350px',
     height: '100vh',
   },
   workspaceEditor: {
-    width: 'calc(100vw - 60px - 300px)',
+    width: 'calc(100vw - 60px - 350px)',
     height: '100vh',
   },
 };
