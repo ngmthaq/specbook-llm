@@ -1,52 +1,66 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { ITreeNode, useFolderTreeAtom } from '../../../../stores';
+import { getFullPath } from '../../../../utils';
 import classes from './TreeNode.module.css';
 
 export interface TreeNodeProps {
-  node: ITreeNode;
+  node?: ITreeNode;
+  fullPath?: string;
   level?: number;
 }
 
-export function TreeNode({ node, level = 0 }: TreeNodeProps) {
-  const { selectedFile, setSelectedFile, expandedFolders, setExpandedFolders } =
+export function TreeNode({ node, fullPath, level = 0 }: TreeNodeProps) {
+  const { selectedFile, setSelectedFile, expandedFolders, setExpandedFolders, folderTree } =
     useFolderTreeAtom();
 
-  const fullNodePath = useMemo(() => {
-    return `${level}:${node.name}`;
-  }, [node, level]);
-
   const hasChildren = useMemo(() => {
-    return node.children && node.children.length > 0;
-  }, [node.children]);
+    return node?.children && node?.children.length > 0;
+  }, [node?.children]);
+
+  const isFolder = useMemo(() => {
+    return node?.type === 'folder';
+  }, [node?.type]);
 
   const isExpanded = useMemo(() => {
-    return expandedFolders.has(fullNodePath);
-  }, [expandedFolders, fullNodePath]);
+    return expandedFolders.has(fullPath);
+  }, [expandedFolders, fullPath]);
 
-  const sortedChildren = useMemo(() => {
-    const folders = node.children?.filter((child) => child.type === 'folder') || [];
-    const files = node.children?.filter((child) => child.type === 'file') || [];
-    return [...folders, ...files];
-  }, [node.children]);
+  const sortedFolderTree = useMemo(() => {
+    const folderNodes = folderTree
+      .filter((node) => {
+        return node?.type === 'folder';
+      })
+      .sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    const fileNodes = folderTree
+      .filter((node) => {
+        return node?.type === 'file';
+      })
+      .sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    return [...folderNodes, ...fileNodes];
+  }, [folderTree]);
 
   const handleClickTreeNode = () => {
-    if (hasChildren) {
+    if (isFolder) {
       const newExpandedFolders = new Set(expandedFolders);
-      if (expandedFolders.has(fullNodePath)) {
-        newExpandedFolders.delete(fullNodePath);
+      if (expandedFolders.has(fullPath)) {
+        newExpandedFolders.delete(fullPath);
       } else {
-        newExpandedFolders.add(fullNodePath);
+        newExpandedFolders.add(fullPath);
       }
       setExpandedFolders(newExpandedFolders);
     } else {
-      setSelectedFile(fullNodePath);
+      setSelectedFile(fullPath);
     }
   };
 
   const getIcon = () => {
     const style = { fontSize: '16px' };
-    if (node.type === 'file') {
+    if (node?.type === 'file') {
       return <i className="bi bi-file-earmark text-primary" style={style}></i>;
     }
     if (isExpanded) {
@@ -72,28 +86,51 @@ export function TreeNode({ node, level = 0 }: TreeNodeProps) {
     );
   };
 
-  return (
-    <div className="user-select-none">
+  const getFullItemElement = () => {
+    return (
       <div
         className={classNames([
           `d-flex align-items-center gap-1 py-1 px-2 cursor-pointer`,
           {
             [classes.treeNode]: true,
-            [classes.active]: fullNodePath === selectedFile,
+            [classes.active]: fullPath === selectedFile,
           },
         ])}
         onClick={handleClickTreeNode}
       >
         {getChevron()}
         {getIcon()}
-        <small className="text-muted ms-1">{node.name}</small>
+        <small className="text-muted ms-1">{node?.name}</small>
       </div>
-      {isExpanded && hasChildren && (
-        <div className={classes.treeNodeList}>
-          <div className={classes.treeNodeListDivider} style={{ left: `${(level + 1) * 16}px` }} />
-          {sortedChildren.map((child, index) => (
-            <TreeNode key={index} node={child} level={level + 1} />
-          ))}
+    );
+  };
+
+  const getNestedItemElement = (items: ITreeNode[]) => {
+    return (
+      <div>
+        {items.map((childNode, index) => {
+          const childFullPath = getFullPath(folderTree, childNode);
+          return (
+            <TreeNode
+              key={index}
+              node={childNode}
+              fullPath={childFullPath || undefined}
+              level={level + 1}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
+  return (
+    <div className="user-select-none">
+      {!node && getNestedItemElement(sortedFolderTree)}
+      {node && !isFolder && getFullItemElement()}
+      {node && isFolder && (
+        <div>
+          {getFullItemElement()}
+          {isExpanded && hasChildren && getNestedItemElement(node.children)}
         </div>
       )}
     </div>

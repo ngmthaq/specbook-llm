@@ -69,8 +69,8 @@ export function ChatMessage(props: ChatMessageProps) {
         {getFileElements()}
       </div>
       {props.position === 'left' && (
-        <button className="btn btn-sm btn-link text-secondary" title="Copy AI assistant message">
-          <i className="bi bi-files"></i>
+        <button className="btn btn-sm btn-link text-secondary" title="More options">
+          <i className="bi bi-three-dots"></i>
         </button>
       )}
     </div>

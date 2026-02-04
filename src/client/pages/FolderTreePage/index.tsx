@@ -5,7 +5,7 @@ import { useFolderTreeAtom } from '../../stores';
 import { TreeNode } from './components';
 
 export function FolderTreePage() {
-  const { folderTree, expandedFolders, setExpandedFolders } = useFolderTreeAtom();
+  const { expandedFolders, setExpandedFolders } = useFolderTreeAtom();
 
   const handleCollapseAll = () => {
     if (expandedFolders.size > 0) {
@@ -27,9 +27,7 @@ export function FolderTreePage() {
         </button>
       </div>
       <div className={CLASSNAMES.BODY_PANEL}>
-        {folderTree?.map((node, index) => (
-          <TreeNode key={index} node={node} />
-        ))}
+        <TreeNode />
       </div>
     </div>
   );
