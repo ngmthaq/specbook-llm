@@ -1,12 +1,6 @@
 import { atom, useAtom } from 'jotai';
 import { DEFAULT_FOLDER_TREE } from '../configs';
-
-export interface ITreeNode {
-  name: string;
-  type: 'file' | 'folder';
-  hash: string;
-  children?: ITreeNode[];
-}
+import { ITreeNode } from '../types';
 
 export const folderTreeAtom = atom<ITreeNode[]>(DEFAULT_FOLDER_TREE);
 

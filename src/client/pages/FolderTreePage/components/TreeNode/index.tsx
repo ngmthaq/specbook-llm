@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { ITreeNode, useFolderTreeAtom } from '../../../../stores';
+import { useFolderTreeAtom } from '../../../../stores';
+import { ITreeNode } from '../../../../types';
 import { getFullPath } from '../../../../utils';
 import classes from './TreeNode.module.css';
 

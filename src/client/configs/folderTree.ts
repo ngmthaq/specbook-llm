@@ -1,4 +1,4 @@
-import { ITreeNode } from '../stores';
+import { ITreeNode } from '../types';
 import { generateRandomString } from '../utils';
 
 export const DEFAULT_FOLDER_TREE: ITreeNode[] = [

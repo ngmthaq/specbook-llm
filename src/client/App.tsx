@@ -13,10 +13,7 @@ import {
   AIChatPage,
 } from './pages';
 import { useThemeAtom } from './stores';
-
-const formatPath = (path: string) => {
-  return path.startsWith('/') ? path.slice(1) : path;
-};
+import { formatPath } from './utils';
 
 export function App() {
   const { theme } = useThemeAtom();

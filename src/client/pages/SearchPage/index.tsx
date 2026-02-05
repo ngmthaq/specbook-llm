@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { CLASSNAMES } from '../../configs';
 import { SearchResult, SearchResultItem } from './components';
@@ -54,7 +55,7 @@ export function SearchPage() {
       <div className={CLASSNAMES.HEADER_PANEL}>
         <small>Search</small>
       </div>
-      <div className={CLASSNAMES.BODY_PANEL} style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className={classNames([CLASSNAMES.BODY_PANEL, 'd-flex flex-column'])}>
         <div className="p-2 border-bottom">
           <div className="input-group">
             <input
@@ -63,7 +64,7 @@ export function SearchPage() {
               placeholder="Search in files..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
             />
             <button className="btn btn-primary" onClick={handleSearch}>
               <i className="bi bi-search"></i>
@@ -73,14 +74,14 @@ export function SearchPage() {
         <div className="flex-grow-1 overflow-auto">
           {results.length === 0 && searchText && (
             <div className="text-center text-muted p-2">
-              <i className="bi bi-inbox" style={{ fontSize: '48px' }}></i>
-              <p className="mt-2">No results found</p>
+              <i className="bi bi-inbox" style={{ fontSize: '32px' }}></i>
+              <p className="mt-2 text-secondary">No results found</p>
             </div>
           )}
           {results.length === 0 && !searchText && (
             <div className="text-center text-muted p-2">
-              <i className="bi bi-search" style={{ fontSize: '48px' }}></i>
-              <p className="mt-2">Enter text to search in files</p>
+              <i className="bi bi-search" style={{ fontSize: '32px' }}></i>
+              <p className="mt-2 text-secondary">Enter text to search in files</p>
             </div>
           )}
           {results.map((result, index) => (

@@ -36,9 +36,14 @@ export function AIChatPage() {
         ])}
       >
         <small>AI Assistant</small>
-        <button className="btn btn-lg border-0 p-0" title="New Conversation">
-          <i className="bi bi-plus"></i>
-        </button>
+        <div>
+          <button className="btn btn-sm btn-link p-1 text-secondary" title="Conversation History">
+            <i className="bi bi-clock-history"></i>
+          </button>
+          <button className="btn btn-sm btn-link p-1 text-secondary" title="New Conversation">
+            <i className="bi bi-plus" style={{ fontSize: '26px' }}></i>
+          </button>
+        </div>
       </div>
       <div className={classNames([CLASSNAMES.BODY_PANEL, 'flex-grow-1'])}>
         {messages.map((msg, index) => (

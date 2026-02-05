@@ -1,6 +1,5 @@
 import { atom, useAtom } from 'jotai';
-
-export type ThemeAtom = 'light' | 'dark';
+import { ThemeAtom } from '../types';
 
 export const themeAtom = atom<ThemeAtom>('light');
 

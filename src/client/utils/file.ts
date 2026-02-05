@@ -1,4 +1,4 @@
-import { ITreeNode } from '../stores';
+import { ITreeNode } from '../types';
 
 export function getFullPath(
   treeNode: ITreeNode[],
