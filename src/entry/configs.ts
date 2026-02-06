@@ -1,7 +1,7 @@
 import { app, nativeImage } from 'electron';
 import path from 'path';
 
-export class Singleton {
+export class Configs {
   public static mainWindow: Electron.BrowserWindow | null = null;
 
   public static tray: Electron.Tray | null = null;
@@ -9,7 +9,7 @@ export class Singleton {
   public static trayIconPath = path.resolve(__dirname, './assets/img/electron.png');
 
   public static trayIcon = nativeImage
-    .createFromPath(Singleton.trayIconPath)
+    .createFromPath(Configs.trayIconPath)
     .resize({ width: 16, height: 16 });
 
   public static isDev = !app.isPackaged;
@@ -26,15 +26,13 @@ export class Singleton {
 
   public static devUserDataPath = path.resolve(__dirname, '../../development_files/userData');
 
-  public static userDataPath = Singleton.isDev
-    ? Singleton.devUserDataPath
-    : app.getPath('userData');
+  public static userDataPath = Configs.isDev ? Configs.devUserDataPath : app.getPath('userData');
 
   public static devTempPath = path.resolve(__dirname, '../../development_files/temp');
 
-  public static tempPath = Singleton.isDev ? Singleton.devTempPath : app.getPath('temp');
+  public static tempPath = Configs.isDev ? Configs.devTempPath : app.getPath('temp');
 
   public static devLogPath = path.resolve(__dirname, '../../development_files/logs');
 
-  public static logPath = Singleton.isDev ? Singleton.devLogPath : app.getPath('logs');
+  public static logPath = Configs.isDev ? Configs.devLogPath : app.getPath('logs');
 }
