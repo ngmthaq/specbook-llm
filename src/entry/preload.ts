@@ -1,34 +1,35 @@
 // See the Electron documentation for details on how to use preload scripts:
 
 import { contextBridge } from 'electron';
-import { VersionEmitter } from '../app/emitters';
+import { PlatformPublisher } from '../app/modules/platform/platform.publisher';
+import { VersionPublisher } from '../app/modules/version/version.publisher';
 
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 class ElectronPreloadProcess {
-  public constructor(private readonly versionEmitter: VersionEmitter) {}
+  public constructor(
+    private readonly versionPublisher: VersionPublisher,
+    private readonly platformPublisher: PlatformPublisher,
+  ) {}
 
-  public start() {
+  public start = () => {
     contextBridge.exposeInMainWorld('electronAPI', this.exposeAPIs());
-  }
+  };
 
-  private exposeAPIs() {
+  private exposeAPIs = () => {
     return {
       ping: () => 'pong',
-      versionEmitter: {
-        getAppVersion: this.versionEmitter.emitGetAppVersion,
-        getNodeVersion: this.versionEmitter.emitGetNodeVersion,
-        getElectronVersion: this.versionEmitter.emitGetElectronVersion,
-        getChromeVersion: this.versionEmitter.emitGetChromeVersion,
-      },
+      versionPublisher: this.versionPublisher,
+      platformPublisher: this.platformPublisher,
     };
-  }
+  };
 }
 
-// Init emitters
-const versionEmitter = new VersionEmitter();
+// Init publishers
+const versionPublisher = new VersionPublisher();
+const platformPublisher = new PlatformPublisher();
 
 // Init the preload process
-const electronPreloadProcess = new ElectronPreloadProcess(versionEmitter);
+const electronPreloadProcess = new ElectronPreloadProcess(versionPublisher, platformPublisher);
 
 // Start the preload process
 electronPreloadProcess.start();

@@ -7,7 +7,7 @@ import type { Compiler } from 'webpack';
  * Only runs for the main process
  */
 export class CopyAppAssetsPlugin {
-  apply(compiler: Compiler) {
+  public apply = (compiler: Compiler) => {
     compiler.hooks.afterEmit.tap('CopyAssetsPlugin', () => {
       const sourceDir = path.resolve(__dirname, '../src/app/assets');
       const targetDir = path.resolve(compiler.outputPath || '.webpack', 'assets');
@@ -43,5 +43,5 @@ export class CopyAppAssetsPlugin {
 
       copyRecursive(sourceDir, targetDir);
     });
-  }
+  };
 }

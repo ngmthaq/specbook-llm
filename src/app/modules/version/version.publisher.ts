@@ -1,21 +1,20 @@
 import { ipcRenderer } from 'electron';
-import { BasePublisher, Publisher } from '../../core';
 import { VERSION_CHANNELS } from './version-channels';
 
-export class VersionPublisher extends BasePublisher implements Publisher {
-  public emitGetAppVersion(): Promise<string> {
+export class VersionPublisher {
+  public getAppVersion = (): Promise<string> => {
     return ipcRenderer.invoke(VERSION_CHANNELS.GET_APP_VERSION);
-  }
+  };
 
-  public emitGetNodeVersion(): Promise<string> {
+  public getNodeVersion = (): Promise<string> => {
     return ipcRenderer.invoke(VERSION_CHANNELS.GET_NODE_VERSION);
-  }
+  };
 
-  public emitGetElectronVersion(): Promise<string> {
+  public getElectronVersion = (): Promise<string> => {
     return ipcRenderer.invoke(VERSION_CHANNELS.GET_ELECTRON_VERSION);
-  }
+  };
 
-  public emitGetChromeVersion(): Promise<string> {
+  public getChromeVersion = (): Promise<string> => {
     return ipcRenderer.invoke(VERSION_CHANNELS.GET_CHROME_VERSION);
-  }
+  };
 }

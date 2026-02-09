@@ -18,6 +18,8 @@ export class Configs {
 
   public static isMac = process.platform === 'darwin';
 
+  public static isLinux = process.platform === 'linux';
+
   public static isForceQuit = false;
 
   public static appName = app.getName();
