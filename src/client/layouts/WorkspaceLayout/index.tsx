@@ -1,8 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { SIZE } from '../../configs';
-import { useFolderTreeAtom, useLayoutAtom } from '../../stores';
-import { PlaceholderEditor, WorkspaceEditor } from './components';
+import { ELEMENT_SIZES } from '../../configs/elementSizes';
+import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
+import { useLayoutAtom } from '../../stores/useLayoutAtom';
+import { PlaceholderEditor } from './components/PlaceholderEditor';
+import { WorkspaceEditor } from './components/WorkspaceEditor';
 
 export function WorkspaceLayout() {
   const { isOpenSecondSidebar } = useLayoutAtom();
@@ -12,8 +14,8 @@ export function WorkspaceLayout() {
     <div className="d-flex">
       <div
         style={{
-          width: SIZE.secondSidebar.width,
-          height: SIZE.secondSidebar.height,
+          width: ELEMENT_SIZES.secondSidebar.width,
+          height: ELEMENT_SIZES.secondSidebar.height,
           display: isOpenSecondSidebar ? 'block' : 'none',
         }}
       >
@@ -21,8 +23,8 @@ export function WorkspaceLayout() {
       </div>
       <div
         style={{
-          width: isOpenSecondSidebar ? SIZE.workspaceEditor.width : '100%',
-          height: SIZE.workspaceEditor.height,
+          width: isOpenSecondSidebar ? ELEMENT_SIZES.workspaceEditor.width : '100%',
+          height: ELEMENT_SIZES.workspaceEditor.height,
         }}
       >
         {selectedFile ? <WorkspaceEditor /> : <PlaceholderEditor />}

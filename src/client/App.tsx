@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { HashRouter, Route, Routes } from 'react-router';
-import { LAYOUT_PATHS, ROUTE_PATHS } from './configs';
-import { NonWorkspaceLayout, WorkspaceLayout } from './layouts';
-import {
-  WelcomePage,
-  FolderTreePage,
-  SearchPage,
-  SharePage,
-  SettingsPage,
-  ProfilePage,
-  HelpPage,
-  AIChatPage,
-} from './pages';
-import { useThemeAtom } from './stores';
-import { formatPath } from './utils';
+import { LAYOUT_PATHS, ROUTE_PATHS } from './configs/routePaths';
+import { NonWorkspaceLayout } from './layouts/NonWorkspaceLayout';
+import { WorkspaceLayout } from './layouts/WorkspaceLayout';
+import { AIChatPage } from './pages/AIChatPage';
+import { FolderTreePage } from './pages/FolderTreePage';
+import { HelpPage } from './pages/HelpPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { SearchPage } from './pages/SearchPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { SharePage } from './pages/SharePage';
+import { WelcomePage } from './pages/WelcomePage';
+import { useThemeAtom } from './stores/useThemeAtom';
+import { formatPath } from './utils/route';
 
 export function App() {
   const { theme } = useThemeAtom();

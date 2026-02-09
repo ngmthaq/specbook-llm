@@ -1,8 +1,8 @@
-import { ITreeNode } from '../types';
+import { TreeNode } from '../types/folderTree';
 
 export function getFullPath(
-  treeNode: ITreeNode[],
-  targetNode: ITreeNode,
+  treeNode: TreeNode[],
+  targetNode: TreeNode,
   currentPath = '',
 ): string | null {
   for (const node of treeNode) {

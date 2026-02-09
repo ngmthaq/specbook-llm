@@ -2,8 +2,8 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import MDEditor from '@uiw/react-md-editor';
 import React, { useState } from 'react';
-import { CLASSNAMES } from '../../../../configs';
-import { useThemeAtom } from '../../../../stores';
+import { CLASSNAMES } from '../../../../configs/classNames';
+import { useThemeAtom } from '../../../../stores/useThemeAtom';
 
 export function WorkspaceEditor() {
   const { theme } = useThemeAtom();
@@ -16,7 +16,7 @@ export function WorkspaceEditor() {
       </div>
       <div className={CLASSNAMES.BODY_PANEL}>
         <div data-color-mode={theme}>
-          <MDEditor value={mockValue} onChange={setMockValue} />
+          <MDEditor value={mockValue} onChange={(value) => setMockValue(value || '')} />
         </div>
       </div>
     </div>

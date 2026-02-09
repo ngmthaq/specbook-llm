@@ -1,12 +1,9 @@
 import { atom, useAtom } from 'jotai';
-import { DEFAULT_FOLDER_TREE } from '../configs';
-import { ITreeNode } from '../types';
+import { TreeNode } from '../../shared/types/folderTree';
 
-export const folderTreeAtom = atom<ITreeNode[]>(DEFAULT_FOLDER_TREE);
-
+export const folderTreeAtom = atom<TreeNode[]>();
 export const selectedFileAtom = atom<string>();
-
-export const expandedFoldersAtom = atom<Set<string>>(new Set<string>());
+export const expandedFoldersAtom = atom(new Set<string>());
 
 export function useFolderTreeAtom() {
   const [folderTree, setFolderTree] = useAtom(folderTreeAtom);

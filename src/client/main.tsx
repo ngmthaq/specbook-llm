@@ -4,7 +4,7 @@ import './assets/css/index.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { showVersionInfo } from './utils';
+import { showVersionInfo } from './utils/debug';
 
 showVersionInfo().then(() => {
   const rootElement = document.getElementById('root');

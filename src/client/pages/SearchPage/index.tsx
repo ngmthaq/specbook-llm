@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { CLASSNAMES } from '../../configs';
-import { SearchResult, SearchResultItem } from './components';
+import { CLASSNAMES } from '../../configs/classNames';
+import { SearchResult, SearchResultItem } from './components/SearchResult';
 
 export function SearchPage() {
   const [searchText, setSearchText] = useState('');

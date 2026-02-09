@@ -1,4 +1,4 @@
-export const SIZE = {
+export const ELEMENT_SIZES = {
   leftSidebar: {
     width: '60px',
     height: '100vh',

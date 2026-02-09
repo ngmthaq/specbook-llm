@@ -1,7 +1,8 @@
 import { ipcRenderer } from 'electron';
+import { Publisher } from '../../core/publisher';
 import { PLATFORM_CHANNELS } from './platform-channels';
 
-export class PlatformPublisher {
+export class PlatformPublisher extends Publisher {
   public isDev = (): Promise<boolean> => {
     return ipcRenderer.invoke(PLATFORM_CHANNELS.IS_DEV);
   };

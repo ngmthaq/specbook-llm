@@ -1,8 +1,9 @@
 import { ipcMain } from 'electron';
 import { Configs } from '../../../entry/configs';
+import { Subscriber } from '../../core/subscriber';
 import { VERSION_CHANNELS } from './version-channels';
 
-export class VersionSubscriber {
+export class VersionSubscriber extends Subscriber {
   public start = () => {
     this.onGetAppVersion();
     this.onGetNodeVersion();

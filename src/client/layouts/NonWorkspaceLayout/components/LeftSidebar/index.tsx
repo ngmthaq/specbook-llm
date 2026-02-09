@@ -1,8 +1,9 @@
 import classnames from 'classnames';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { LeftSidebarItem, SIDEBAR_ITEMS } from '../../../../configs';
-import { useLayoutAtom } from '../../../../stores';
+import { LeftSidebarItem } from '../../../../../shared/types/sidebarItem';
+import { SIDEBAR_ITEMS } from '../../../../configs/sidebarItems';
+import { useLayoutAtom } from '../../../../stores/useLayoutAtom';
 import classes from './LeftSidebar.module.css';
 
 export function LeftSidebar() {

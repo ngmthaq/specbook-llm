@@ -1,5 +1,7 @@
 import { app } from 'electron';
+import { Subscriber } from '../app/core/subscriber';
 import { AppSubscriber } from '../app/modules/app/app.subscriber';
+import { FileSubscriber } from '../app/modules/file/file.subscriber';
 import { PlatformSubscriber } from '../app/modules/platform/platform.subscriber';
 import { VersionSubscriber } from '../app/modules/version/version.subscriber';
 import { Configs } from './configs';
@@ -13,15 +15,13 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 class ElectronMainProcess {
   public constructor(
     private readonly appSubscriber: AppSubscriber,
-    private readonly versionSubscriber: VersionSubscriber,
-    private readonly platformSubscriber: PlatformSubscriber,
+    private readonly subscribers: Subscriber[],
   ) {}
 
   public start = () => {
     this.checkSquirrelStartup();
     this.appSubscriber.start(MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, MAIN_WINDOW_WEBPACK_ENTRY);
-    this.versionSubscriber.start();
-    this.platformSubscriber.start();
+    this.subscribers.forEach((subscriber) => subscriber.start());
   };
 
   private checkSquirrelStartup = () => {
@@ -31,16 +31,12 @@ class ElectronMainProcess {
   };
 }
 
-// Init listeners
-const appSubscriber = new AppSubscriber();
-const versionSubscriber = new VersionSubscriber();
-const platformSubscriber = new PlatformSubscriber();
-
 // Init the main process
-const electronMainProcess = new ElectronMainProcess(
-  appSubscriber,
-  versionSubscriber,
-  platformSubscriber,
-);
+const electronMainProcess = new ElectronMainProcess(new AppSubscriber(), [
+  new VersionSubscriber(),
+  new PlatformSubscriber(),
+  new FileSubscriber(),
+]);
+
 // Start the main process
 electronMainProcess.start();

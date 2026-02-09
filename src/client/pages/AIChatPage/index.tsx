@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
-import { CLASSNAMES } from '../../configs';
-import { ChatMessage, ChatForm } from './components';
+import { CLASSNAMES } from '../../configs/classNames';
+import { ChatForm } from './components/ChatForm';
+import { ChatMessage } from './components/ChatMessage';
 
 export function AIChatPage() {
   const messages = [

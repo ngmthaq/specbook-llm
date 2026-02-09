@@ -1,7 +1,8 @@
 import { ipcRenderer } from 'electron';
+import { Publisher } from '../../core/publisher';
 import { VERSION_CHANNELS } from './version-channels';
 
-export class VersionPublisher {
+export class VersionPublisher extends Publisher {
   public getAppVersion = (): Promise<string> => {
     return ipcRenderer.invoke(VERSION_CHANNELS.GET_APP_VERSION);
   };

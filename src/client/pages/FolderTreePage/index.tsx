@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
-import { CLASSNAMES } from '../../configs';
-import { useFolderTreeAtom } from '../../stores';
-import { TreeNode } from './components';
+import { CLASSNAMES } from '../../configs/classNames';
+import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
+import { TreeNode } from './components/TreeNode';
 
 export function FolderTreePage() {
   const { expandedFolders, setExpandedFolders } = useFolderTreeAtom();

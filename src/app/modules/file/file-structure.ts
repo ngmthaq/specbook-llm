@@ -1,11 +1,10 @@
-import { ITreeNode } from '../types';
-import { generateRandomString } from '../utils';
+import { TreeNode } from '../../../shared/types/folderTree';
+import { generateRandomString } from '../../../shared/utils/text';
 
-export const DEFAULT_FOLDER_TREE: ITreeNode[] = [
+export const defaultFileStructure: TreeNode[] = [
   {
     name: 'activities_diagrams',
     type: 'folder',
-    hash: generateRandomString(),
     children: [
       {
         name: 'user_login_activity.md',
@@ -13,12 +12,13 @@ export const DEFAULT_FOLDER_TREE: ITreeNode[] = [
         hash: generateRandomString(),
       },
     ],
+    hash: generateRandomString(),
   },
   {
     name: 'ui_mockups',
     type: 'folder',
-    hash: generateRandomString(),
     children: [],
+    hash: generateRandomString(),
   },
   {
     name: 'client_requirements.md',

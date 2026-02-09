@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { useFolderTreeAtom } from '../../../../stores';
-import { ITreeNode } from '../../../../types';
-import { getFullPath } from '../../../../utils';
+import { TreeNode as TreeNodeType } from '../../../../../shared/types/folderTree';
+import { getFullPath } from '../../../../../shared/utils/file';
+import { useFolderTreeAtom } from '../../../../stores/useFolderTreeAtom';
 import classes from './TreeNode.module.css';
 
 export interface TreeNodeProps {
-  node?: ITreeNode;
+  node?: TreeNodeType;
   fullPath?: string;
   level?: number;
 }
 
-export function TreeNode({ node, fullPath, level = 0 }: TreeNodeProps) {
+export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
   const { selectedFile, setSelectedFile, expandedFolders, setExpandedFolders, folderTree } =
     useFolderTreeAtom();
 
@@ -28,6 +28,7 @@ export function TreeNode({ node, fullPath, level = 0 }: TreeNodeProps) {
   }, [expandedFolders, fullPath]);
 
   const sortedFolderTree = useMemo(() => {
+    if (!folderTree) return [];
     const folderNodes = folderTree
       .filter((node) => {
         return node?.type === 'folder';
@@ -106,11 +107,11 @@ export function TreeNode({ node, fullPath, level = 0 }: TreeNodeProps) {
     );
   };
 
-  const getNestedItemElement = (items: ITreeNode[]) => {
+  const getNestedItemElement = (items: TreeNodeType[]) => {
     return (
       <div>
         {items.map((childNode, index) => {
-          const childFullPath = getFullPath(folderTree, childNode);
+          const childFullPath = getFullPath(sortedFolderTree, childNode);
           return (
             <TreeNode
               key={index}
@@ -131,7 +132,7 @@ export function TreeNode({ node, fullPath, level = 0 }: TreeNodeProps) {
       {node && isFolder && (
         <div>
           {getFullItemElement()}
-          {isExpanded && hasChildren && getNestedItemElement(node.children)}
+          {isExpanded && hasChildren && getNestedItemElement(node.children || [])}
         </div>
       )}
     </div>

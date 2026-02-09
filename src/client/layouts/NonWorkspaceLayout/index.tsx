@@ -1,15 +1,26 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { SIZE } from '../../configs';
-import { LeftSidebar } from './components';
+import { ELEMENT_SIZES } from '../../configs/elementSizes';
+import { LeftSidebar } from './components/LeftSidebar';
 
 export function NonWorkspaceLayout() {
   return (
     <div className="d-flex">
-      <div style={{ width: SIZE.leftSidebar.width, height: SIZE.leftSidebar.height }}>
+      <div
+        style={{
+          width: ELEMENT_SIZES.leftSidebar.width,
+          height: ELEMENT_SIZES.leftSidebar.height,
+        }}
+      >
         <LeftSidebar />
       </div>
-      <div style={{ flex: 1, height: SIZE.leftSidebar.height }} className="overflow-auto">
+      <div
+        style={{
+          flex: 1,
+          height: ELEMENT_SIZES.leftSidebar.height,
+        }}
+        className="overflow-auto"
+      >
         <Outlet />
       </div>
     </div>

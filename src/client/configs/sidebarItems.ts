@@ -1,10 +1,5 @@
+import { LeftSidebarItem } from '../../shared/types/sidebarItem';
 import { FULL_ROUTE_PATHS } from './routePaths';
-
-export interface LeftSidebarItem {
-  route: string;
-  label: string;
-  icon: string;
-}
 
 export const SIDEBAR_ITEMS: LeftSidebarItem[] = [
   {

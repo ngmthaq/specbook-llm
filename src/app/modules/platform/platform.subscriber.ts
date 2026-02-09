@@ -1,8 +1,9 @@
 import { ipcMain } from 'electron';
 import { Configs } from '../../../entry/configs';
+import { Subscriber } from '../../core/subscriber';
 import { PLATFORM_CHANNELS } from './platform-channels';
 
-export class PlatformSubscriber {
+export class PlatformSubscriber extends Subscriber {
   public start = () => {
     this.onIsDev();
     this.onIsMac();
