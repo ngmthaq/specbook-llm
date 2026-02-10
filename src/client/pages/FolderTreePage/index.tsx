@@ -1,18 +1,35 @@
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { CLASSNAMES } from '../../configs/classNames';
+import { FULL_ROUTE_PATHS } from '../../configs/routePaths';
 import { useExpandedFoldersAtom } from '../../stores/useExpandedFoldersAtom';
 import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
+import { useSelectedFileAtom } from '../../stores/useSelectedFileAtom';
 import { TreeNode } from './components/TreeNode';
 
 export function FolderTreePage() {
+  const navigate = useNavigate();
   const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
-  const { selectedFolderDir, setFolderTree } = useFolderTreeAtom();
+  const { selectedFolderDir, setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
+  const { setSelectedFilePath } = useSelectedFileAtom();
 
   const handleCollapseAll = () => {
     if (expandedFolders.length > 0) {
       setExpandedFolders([]);
     }
+  };
+
+  const handleCloseWorkspace = () => {
+    setSelectedFilePath('');
+    setTimeout(() => {
+      setSelectedFolderDir('');
+    }, 250);
+    setTimeout(() => {
+      setFolderTree([]);
+      setExpandedFolders([]);
+      navigate(FULL_ROUTE_PATHS.WELCOME);
+    }, 500);
   };
 
   useEffect(() => {
@@ -39,9 +56,18 @@ export function FolderTreePage() {
         ])}
       >
         <small>Folder Tree</small>
-        <button className="btn border-0 p-0" title="Collapse All" onClick={handleCollapseAll}>
-          <i className="bi bi-dash-square"></i>
-        </button>
+        <span className="d-flex justify-content-end align-items-center gap-1">
+          <button className="btn border-0 p-0" title="Collapse All" onClick={handleCollapseAll}>
+            <i className="bi bi-dash-square"></i>
+          </button>
+          <button
+            className="btn border-0 p-0"
+            title="Close Workspace"
+            onClick={handleCloseWorkspace}
+          >
+            <i className="bi bi-x-square"></i>
+          </button>
+        </span>
       </div>
       <div className={CLASSNAMES.BODY_PANEL}>
         <TreeNode />
