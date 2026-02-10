@@ -3,6 +3,7 @@ import { Subscriber } from '../app/core/subscriber';
 import { AppSubscriber } from '../app/modules/app/app.subscriber';
 import { FileSubscriber } from '../app/modules/file/file.subscriber';
 import { PlatformSubscriber } from '../app/modules/platform/platform.subscriber';
+import { StorageSubscriber } from '../app/modules/storage/storage.subscriber';
 import { VersionSubscriber } from '../app/modules/version/version.subscriber';
 import { Configs } from './configs';
 
@@ -36,6 +37,7 @@ const electronMainProcess = new ElectronMainProcess(new AppSubscriber(), [
   new VersionSubscriber(),
   new PlatformSubscriber(),
   new FileSubscriber(),
+  new StorageSubscriber(),
 ]);
 
 // Start the main process

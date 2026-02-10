@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { FULL_ROUTE_PATHS } from '../../configs/routePaths';
+import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
 
 export function WelcomePage() {
   const navigate = useNavigate();
+  const { selectedFolderDir, setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
 
-  const handleOpenProject = () => {
-    navigate(FULL_ROUTE_PATHS.FOLDER_TREE);
+  const handleOpenProject = async () => {
+    const openProjectResponse = await window.electronAPI.filePublisher.openWorkspace();
+    if (openProjectResponse.success) {
+      setFolderTree(openProjectResponse.tree || []);
+      setSelectedFolderDir(openProjectResponse.workspacePath || '');
+      navigate(FULL_ROUTE_PATHS.FOLDER_TREE);
+    } else {
+      // Handle error (e.g., show a notification)
+      console.error('Failed to open project:', openProjectResponse.error);
+    }
   };
+
+  const handleCreateNewWorkspace = async () => {
+    const openProjectResponse = await window.electronAPI.filePublisher.createWorkspace();
+    if (openProjectResponse.success) {
+      setFolderTree(openProjectResponse.tree || []);
+      setSelectedFolderDir(openProjectResponse.workspacePath || '');
+      navigate(FULL_ROUTE_PATHS.FOLDER_TREE);
+    } else {
+      // Handle error (e.g., show a notification)
+      console.error('Failed to open project:', openProjectResponse.error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFolderDir) navigate(FULL_ROUTE_PATHS.FOLDER_TREE);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFolderDir]);
 
   return (
     <div className="container">
@@ -22,11 +49,11 @@ export function WelcomePage() {
           Get started by opening a project or creating a new spec.
         </p>
         <div className="d-flex justify-content-center gap-2">
-          <button className="btn btn-primary" onClick={handleOpenProject}>
+          <button className="btn btn-primary" onClick={() => handleOpenProject()}>
             <i className="bi bi-folder2-open me-2" />
             Open Project
           </button>
-          <button className="btn btn-outline-secondary">
+          <button className="btn btn-outline-secondary" onClick={handleCreateNewWorkspace}>
             <i className="bi bi-file-earmark-plus me-2" />
             New Spec
           </button>

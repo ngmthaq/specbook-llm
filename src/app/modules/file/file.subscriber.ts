@@ -46,28 +46,37 @@ export class FileSubscriber extends Subscriber {
   };
 
   private onOpenWorkspace = () => {
-    ipcMain.handle(FILE_CHANNELS.OPEN_WORKSPACE, async (): Promise<OpenWorkspaceResult> => {
-      const result = await dialog.showOpenDialog({
-        properties: ['openDirectory'],
-        title: 'Open Workspace',
-        buttonLabel: 'Open',
-      });
+    ipcMain.handle(
+      FILE_CHANNELS.OPEN_WORKSPACE,
+      async (event, selectedFolderDir?: string): Promise<OpenWorkspaceResult> => {
+        let workspacePath = '';
 
-      if (result.canceled || result.filePaths.length === 0) {
-        return { success: false, error: 'No folder selected' };
-      }
+        if (selectedFolderDir) {
+          workspacePath = selectedFolderDir;
+        } else {
+          const result = await dialog.showOpenDialog({
+            properties: ['openDirectory'],
+            title: 'Open Workspace',
+            buttonLabel: 'Open',
+          });
 
-      const workspacePath = result.filePaths[0];
+          if (result.canceled || result.filePaths.length === 0) {
+            return { success: false, error: 'No folder selected' };
+          }
 
-      try {
-        const tree = await FileHelper.readDirectoryStructure(workspacePath);
-        return { success: true, workspacePath, tree };
-      } catch (error) {
-        return {
-          success: false,
-          error: error instanceof Error ? error.message : 'Failed to read workspace structure',
-        };
-      }
-    });
+          workspacePath = result.filePaths[0];
+        }
+
+        try {
+          const tree = await FileHelper.readDirectoryStructure(workspacePath);
+          return { success: true, workspacePath, tree };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to read workspace structure',
+          };
+        }
+      },
+    );
   };
 }

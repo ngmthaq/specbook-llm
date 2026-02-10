@@ -5,17 +5,23 @@ export const defaultFileStructure: TreeNode[] = [
   {
     name: 'activities_diagrams',
     type: 'folder',
-    children: [
-      {
-        name: 'user_login_activity.md',
-        type: 'file',
-        hash: generateRandomString(),
-      },
-    ],
+    children: [],
+    hash: generateRandomString(),
+  },
+  {
+    name: 'use_case_diagrams',
+    type: 'folder',
+    children: [],
     hash: generateRandomString(),
   },
   {
     name: 'ui_mockups',
+    type: 'folder',
+    children: [],
+    hash: generateRandomString(),
+  },
+  {
+    name: 'ui_mockup_descriptions',
     type: 'folder',
     children: [],
     hash: generateRandomString(),
@@ -31,11 +37,6 @@ export const defaultFileStructure: TreeNode[] = [
     hash: generateRandomString(),
   },
   {
-    name: 'features.md',
-    type: 'file',
-    hash: generateRandomString(),
-  },
-  {
     name: 'entities.md',
     type: 'file',
     hash: generateRandomString(),
@@ -46,12 +47,7 @@ export const defaultFileStructure: TreeNode[] = [
     hash: generateRandomString(),
   },
   {
-    name: 'roles.md',
-    type: 'file',
-    hash: generateRandomString(),
-  },
-  {
-    name: 'role_matrix.md',
+    name: 'features.md',
     type: 'file',
     hash: generateRandomString(),
   },

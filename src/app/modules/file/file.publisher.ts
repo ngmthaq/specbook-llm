@@ -8,7 +8,7 @@ export class FilePublisher extends Publisher {
     return ipcRenderer.invoke(FILE_CHANNELS.CREATE_WORKSPACE);
   };
 
-  public openWorkspace = async (): Promise<OpenWorkspaceResult> => {
-    return ipcRenderer.invoke(FILE_CHANNELS.OPEN_WORKSPACE);
+  public openWorkspace = async (selectedFolderDir?: string): Promise<OpenWorkspaceResult> => {
+    return ipcRenderer.invoke(FILE_CHANNELS.OPEN_WORKSPACE, selectedFolderDir);
   };
 }

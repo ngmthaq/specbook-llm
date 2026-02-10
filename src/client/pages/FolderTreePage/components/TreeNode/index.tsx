@@ -2,7 +2,9 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { TreeNode as TreeNodeType } from '../../../../../shared/types/folderTree';
 import { getFullPath } from '../../../../../shared/utils/file';
+import { useExpandedFoldersAtom } from '../../../../stores/useExpandedFoldersAtom';
 import { useFolderTreeAtom } from '../../../../stores/useFolderTreeAtom';
+import { useSelectedFileAtom } from '../../../../stores/useSelectedFileAtom';
 import classes from './TreeNode.module.css';
 
 export interface TreeNodeProps {
@@ -12,8 +14,9 @@ export interface TreeNodeProps {
 }
 
 export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
-  const { selectedFile, setSelectedFile, expandedFolders, setExpandedFolders, folderTree } =
-    useFolderTreeAtom();
+  const { folderTree } = useFolderTreeAtom();
+  const { selectedFilePath, setSelectedFilePath } = useSelectedFileAtom();
+  const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
 
   const hasChildren = useMemo(() => {
     return node?.children && node?.children.length > 0;
@@ -24,7 +27,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
   }, [node?.type]);
 
   const isExpanded = useMemo(() => {
-    return expandedFolders.has(fullPath);
+    return expandedFolders.includes(fullPath);
   }, [expandedFolders, fullPath]);
 
   const sortedFolderTree = useMemo(() => {
@@ -48,15 +51,13 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
 
   const handleClickTreeNode = () => {
     if (isFolder) {
-      const newExpandedFolders = new Set(expandedFolders);
-      if (expandedFolders.has(fullPath)) {
-        newExpandedFolders.delete(fullPath);
+      if (expandedFolders.includes(fullPath)) {
+        setExpandedFolders(expandedFolders.filter((path) => path !== fullPath));
       } else {
-        newExpandedFolders.add(fullPath);
+        setExpandedFolders([...expandedFolders, fullPath]);
       }
-      setExpandedFolders(newExpandedFolders);
     } else {
-      setSelectedFile(fullPath);
+      setSelectedFilePath(fullPath);
     }
   };
 
@@ -95,7 +96,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
           `d-flex align-items-center gap-1 py-1 px-2 cursor-pointer`,
           {
             [classes.treeNode]: true,
-            [classes.active]: fullPath === selectedFile,
+            [classes.active]: fullPath === selectedFilePath,
           },
         ])}
         onClick={handleClickTreeNode}

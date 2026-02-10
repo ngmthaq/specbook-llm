@@ -1,17 +1,34 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CLASSNAMES } from '../../configs/classNames';
+import { useExpandedFoldersAtom } from '../../stores/useExpandedFoldersAtom';
 import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
 import { TreeNode } from './components/TreeNode';
 
 export function FolderTreePage() {
-  const { expandedFolders, setExpandedFolders } = useFolderTreeAtom();
+  const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
+  const { selectedFolderDir, setFolderTree } = useFolderTreeAtom();
 
   const handleCollapseAll = () => {
-    if (expandedFolders.size > 0) {
-      setExpandedFolders(new Set<string>());
+    if (expandedFolders.length > 0) {
+      setExpandedFolders([]);
     }
   };
+
+  useEffect(() => {
+    const handleOpenProject = async (path: string) => {
+      const openProjectResponse = await window.electronAPI.filePublisher.openWorkspace(path);
+      if (openProjectResponse.success) {
+        setFolderTree(openProjectResponse.tree || []);
+      } else {
+        // Handle error (e.g., show a notification)
+        console.error('Failed to open project:', openProjectResponse.error);
+      }
+    };
+
+    if (selectedFolderDir) handleOpenProject(selectedFolderDir);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFolderDir]);
 
   return (
     <div className="w-100 h-100">

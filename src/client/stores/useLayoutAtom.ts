@@ -1,9 +1,13 @@
-import { atom, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
+import { atomWithElectronStorage } from '../configs/jotaiStorage';
 
-export const isOpenSecondSidebarAtom = atom<boolean>(true);
+export const isOpenSecondSidebarAtom = atomWithElectronStorage<boolean>(
+  'isOpenSecondSidebarAtom',
+  true,
+);
 
 export const useLayoutAtom = () => {
   const [isOpenSecondSidebar, setIsOpenSecondSidebar] = useAtom(isOpenSecondSidebarAtom);
 
-  return { isOpenSecondSidebar, setIsOpenSecondSidebar } as const;
+  return { isOpenSecondSidebar, setIsOpenSecondSidebar };
 };
