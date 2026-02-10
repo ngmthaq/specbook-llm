@@ -14,9 +14,15 @@ export interface TreeNodeProps {
 }
 
 export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
-  const { folderTree } = useFolderTreeAtom();
-  const { selectedFilePath, setSelectedFilePath } = useSelectedFileAtom();
+  const { folderTree, selectedFolderDir } = useFolderTreeAtom();
   const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
+  const {
+    selectedFilePath,
+    hasUnsavedChanges,
+    setSelectedFilePath,
+    setCurrentContent,
+    setOriginalContent,
+  } = useSelectedFileAtom();
 
   const hasChildren = useMemo(() => {
     return node?.children && node?.children.length > 0;
@@ -49,6 +55,24 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
     return [...folderNodes, ...fileNodes];
   }, [folderTree]);
 
+  const handleOpenFile = async (dir: string, path: string) => {
+    if (hasUnsavedChanges) {
+      const confirmOpen = confirm(
+        'You have unsaved changes. Do you want to discard them and open a new file?',
+      );
+      if (!confirmOpen) return;
+    }
+    const content = await window.electronAPI.filePublisher.openFile(`${dir}/${path}`);
+    if (content.success) {
+      setOriginalContent(content.content || '');
+      setCurrentContent(content.content || '');
+      setSelectedFilePath(path);
+    } else {
+      // Handle error (e.g., show a notification)
+      console.error('Failed to open file:', content.error);
+    }
+  };
+
   const handleClickTreeNode = () => {
     if (isFolder) {
       if (expandedFolders.includes(fullPath)) {
@@ -57,7 +81,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
         setExpandedFolders([...expandedFolders, fullPath]);
       }
     } else {
-      setSelectedFilePath(fullPath);
+      handleOpenFile(selectedFolderDir, fullPath);
     }
   };
 

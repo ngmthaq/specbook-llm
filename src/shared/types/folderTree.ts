@@ -11,3 +11,15 @@ export interface OpenWorkspaceResult {
   tree?: TreeNode[];
   error?: string;
 }
+
+export interface OpenFileResult {
+  success: boolean;
+  filePath?: string;
+  content?: string;
+  error?: string;
+}
+
+export interface SaveFileResult {
+  success: boolean;
+  error?: string;
+}

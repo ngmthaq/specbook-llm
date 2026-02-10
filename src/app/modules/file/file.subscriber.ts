@@ -1,5 +1,10 @@
 import { dialog, ipcMain } from 'electron';
-import { OpenWorkspaceResult } from '../../../shared/types/folderTree';
+import * as fs from 'fs/promises';
+import {
+  OpenFileResult,
+  OpenWorkspaceResult,
+  SaveFileResult,
+} from '../../../shared/types/folderTree';
 import { Subscriber } from '../../core/subscriber';
 import { FILE_CHANNELS } from './file-channels';
 import { defaultFileStructure } from './file-structure';
@@ -9,6 +14,8 @@ export class FileSubscriber extends Subscriber {
   public start = () => {
     this.onCreateWorkspace();
     this.onOpenWorkspace();
+    this.onOpenFile();
+    this.onSaveFile();
   };
 
   private onCreateWorkspace = () => {
@@ -74,6 +81,40 @@ export class FileSubscriber extends Subscriber {
           return {
             success: false,
             error: error instanceof Error ? error.message : 'Failed to read workspace structure',
+          };
+        }
+      },
+    );
+  };
+
+  private onOpenFile = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.OPEN_FILE,
+      async (event, filePath: string): Promise<OpenFileResult> => {
+        try {
+          const content = await fs.readFile(filePath, 'utf-8');
+          return { success: true, filePath, content };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to open file',
+          };
+        }
+      },
+    );
+  };
+
+  private onSaveFile = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.SAVE_FILE,
+      async (event, filePath: string, content: string): Promise<SaveFileResult> => {
+        try {
+          await fs.writeFile(filePath, content, 'utf-8');
+          return { success: true };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to save file',
           };
         }
       },

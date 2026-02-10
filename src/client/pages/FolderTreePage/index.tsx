@@ -12,7 +12,8 @@ export function FolderTreePage() {
   const navigate = useNavigate();
   const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
   const { selectedFolderDir, setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
-  const { setSelectedFilePath } = useSelectedFileAtom();
+  const { selectedFilePath, setSelectedFilePath, setCurrentContent, setOriginalContent } =
+    useSelectedFileAtom();
 
   const handleCollapseAll = () => {
     if (expandedFolders.length > 0) {
@@ -46,6 +47,23 @@ export function FolderTreePage() {
     if (selectedFolderDir) handleOpenProject(selectedFolderDir);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFolderDir]);
+
+  useEffect(() => {
+    const handleOpenFile = async (dir: string, path: string) => {
+      const content = await window.electronAPI.filePublisher.openFile(`${dir}/${path}`);
+      if (content.success) {
+        setOriginalContent(content.content || '');
+        setCurrentContent(content.content || '');
+        setSelectedFilePath(path);
+      } else {
+        // Handle error (e.g., show a notification)
+        console.error('Failed to open file:', content.error);
+      }
+    };
+
+    if (selectedFilePath) handleOpenFile(selectedFolderDir, selectedFilePath);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFilePath]);
 
   return (
     <div className="w-100 h-100">
