@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { CLASSNAMES } from '../../configs/classNames';
 import { FULL_ROUTE_PATHS } from '../../configs/routePaths';
@@ -25,12 +25,20 @@ export function FolderTreePage() {
     setSelectedFilePath('');
     setTimeout(() => {
       setSelectedFolderDir('');
-    }, 250);
+    }, 100);
     setTimeout(() => {
       setFolderTree([]);
       setExpandedFolders([]);
       navigate(FULL_ROUTE_PATHS.WELCOME);
-    }, 500);
+    }, 200);
+  };
+
+  const handleOpenContextMenu: MouseEventHandler = async (event) => {
+    event.stopPropagation();
+    await window.electronAPI.contextMenuPublisher.openFolderTreeContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+    });
   };
 
   useEffect(() => {
@@ -87,7 +95,7 @@ export function FolderTreePage() {
           </button>
         </span>
       </div>
-      <div className={CLASSNAMES.BODY_PANEL}>
+      <div className={CLASSNAMES.BODY_PANEL} onContextMenu={handleOpenContextMenu}>
         <TreeNode />
       </div>
     </div>

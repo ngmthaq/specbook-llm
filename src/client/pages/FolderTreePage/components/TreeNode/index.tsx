@@ -85,6 +85,24 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
     }
   };
 
+  const handleOpenFolderContextMenu: React.MouseEventHandler = async (event) => {
+    event.stopPropagation();
+    await window.electronAPI.contextMenuPublisher.openFolderNodeContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      folderPath: fullPath,
+    });
+  };
+
+  const handleOpenFileContextMenu: React.MouseEventHandler = async (event) => {
+    event.stopPropagation();
+    await window.electronAPI.contextMenuPublisher.openFileNodeContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      filePath: fullPath,
+    });
+  };
+
   const getIcon = () => {
     const style = { fontSize: '16px' };
     if (node?.type === 'file') {
@@ -153,9 +171,11 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
   return (
     <div className="user-select-none">
       {!node && getNestedItemElement(sortedFolderTree)}
-      {node && !isFolder && getFullItemElement()}
+      {node && !isFolder && (
+        <div onContextMenu={handleOpenFileContextMenu}>{getFullItemElement()}</div>
+      )}
       {node && isFolder && (
-        <div>
+        <div onContextMenu={handleOpenFolderContextMenu}>
           {getFullItemElement()}
           {isExpanded && hasChildren && getNestedItemElement(node.children || [])}
         </div>

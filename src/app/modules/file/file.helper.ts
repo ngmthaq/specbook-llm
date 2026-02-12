@@ -58,10 +58,13 @@ export class FileHelper {
       }
     }
 
-    // Sort: folders first, then files, alphabetically
     return tree.sort((a, b) => {
       if (a.type === b.type) return a.name.localeCompare(b.name);
       return a.type === 'folder' ? -1 : 1;
     });
+  };
+
+  public static deleteFolder = async (folderPath: string): Promise<void> => {
+    await fs.promises.rm(folderPath, { recursive: true, force: true });
   };
 }

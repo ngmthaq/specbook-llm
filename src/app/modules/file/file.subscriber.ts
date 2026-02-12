@@ -1,8 +1,13 @@
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs/promises';
 import {
+  CreateFolderResult,
+  DeleteFileResult,
+  DeleteFolderResult,
   OpenFileResult,
   OpenWorkspaceResult,
+  RenameFileResult,
+  RenameFolderResult,
   SaveFileResult,
 } from '../../../shared/types/folderTree';
 import { Subscriber } from '../../core/subscriber';
@@ -16,6 +21,12 @@ export class FileSubscriber extends Subscriber {
     this.onOpenWorkspace();
     this.onOpenFile();
     this.onSaveFile();
+    this.onCreateFile();
+    this.onCreateFolder();
+    this.onRenameFile();
+    this.onRenameFolder();
+    this.onDeleteFile();
+    this.onDeleteFolder();
   };
 
   private onCreateWorkspace = () => {
@@ -87,6 +98,23 @@ export class FileSubscriber extends Subscriber {
     );
   };
 
+  private onCreateFile = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.CREATE_FILE,
+      async (event, filePath: string): Promise<OpenFileResult> => {
+        try {
+          await fs.writeFile(filePath, '', 'utf-8');
+          return { success: true, filePath, content: '' };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to create file',
+          };
+        }
+      },
+    );
+  };
+
   private onOpenFile = () => {
     ipcMain.handle(
       FILE_CHANNELS.OPEN_FILE,
@@ -115,6 +143,91 @@ export class FileSubscriber extends Subscriber {
           return {
             success: false,
             error: error instanceof Error ? error.message : 'Failed to save file',
+          };
+        }
+      },
+    );
+  };
+
+  private onCreateFolder = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.CREATE_FOLDER,
+      async (event, folderPath: string): Promise<CreateFolderResult> => {
+        try {
+          await fs.mkdir(folderPath, { recursive: true });
+          return { success: true, folderPath };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to create folder',
+          };
+        }
+      },
+    );
+  };
+
+  private onRenameFile = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.RENAME_FILE,
+      async (event, oldPath: string, newPath: string): Promise<RenameFileResult> => {
+        try {
+          await fs.rename(oldPath, newPath);
+          return { success: true, oldPath, newPath };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to rename file',
+          };
+        }
+      },
+    );
+  };
+
+  private onRenameFolder = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.RENAME_FOLDER,
+      async (event, oldPath: string, newPath: string): Promise<RenameFolderResult> => {
+        try {
+          await fs.rename(oldPath, newPath);
+          return { success: true, oldPath, newPath };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to rename folder',
+          };
+        }
+      },
+    );
+  };
+
+  private onDeleteFile = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.DELETE_FILE,
+      async (event, filePath: string): Promise<DeleteFileResult> => {
+        try {
+          await fs.unlink(filePath);
+          return { success: true, filePath };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to delete file',
+          };
+        }
+      },
+    );
+  };
+
+  private onDeleteFolder = () => {
+    ipcMain.handle(
+      FILE_CHANNELS.DELETE_FOLDER,
+      async (event, folderPath: string): Promise<DeleteFolderResult> => {
+        try {
+          await FileHelper.deleteFolder(folderPath);
+          return { success: true, folderPath };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to delete folder',
           };
         }
       },

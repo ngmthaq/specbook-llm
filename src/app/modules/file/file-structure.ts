@@ -3,52 +3,63 @@ import { generateRandomString } from '../../../shared/utils/text';
 
 export const defaultFileStructure: TreeNode[] = [
   {
-    name: 'activities_diagrams',
     type: 'folder',
-    children: [],
+    name: '1_requirements',
     hash: generateRandomString(),
+    children: [
+      {
+        type: 'file',
+        name: '1_client_requirement.md',
+        hash: generateRandomString(),
+      },
+      {
+        type: 'file',
+        name: '2_clarification_requirement.md',
+        hash: generateRandomString(),
+      },
+    ],
   },
   {
-    name: 'use_case_diagrams',
     type: 'folder',
-    children: [],
+    name: '2_analysis_documents',
     hash: generateRandomString(),
+    children: [
+      {
+        type: 'file',
+        name: '1_actors.md',
+        hash: generateRandomString(),
+      },
+      {
+        type: 'file',
+        name: '2_features.md',
+        hash: generateRandomString(),
+      },
+      {
+        type: 'file',
+        name: '3_actor_feature_matrix.md',
+        hash: generateRandomString(),
+      },
+      {
+        type: 'file',
+        name: '4_entities.md',
+        hash: generateRandomString(),
+      },
+      {
+        type: 'file',
+        name: '5_entity_relationship_diagram.md',
+        hash: generateRandomString(),
+      },
+    ],
   },
   {
-    name: 'ui_mockups',
     type: 'folder',
+    name: '3_user_stories',
+    hash: generateRandomString(),
     children: [],
-    hash: generateRandomString(),
   },
   {
-    name: 'ui_mockup_descriptions',
-    type: 'folder',
-    children: [],
-    hash: generateRandomString(),
-  },
-  {
-    name: 'client_requirements.md',
     type: 'file',
-    hash: generateRandomString(),
-  },
-  {
-    name: 'clarified_requirements.md',
-    type: 'file',
-    hash: generateRandomString(),
-  },
-  {
-    name: 'entities.md',
-    type: 'file',
-    hash: generateRandomString(),
-  },
-  {
-    name: 'entity_relation_diagram.md',
-    type: 'file',
-    hash: generateRandomString(),
-  },
-  {
-    name: 'features.md',
-    type: 'file',
+    name: 'README.md',
     hash: generateRandomString(),
   },
 ];
