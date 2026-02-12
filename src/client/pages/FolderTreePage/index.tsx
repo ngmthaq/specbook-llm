@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { MouseEventHandler, useEffect } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router';
 import { CLASSNAMES } from '../../configs/classNames';
 import { FULL_ROUTE_PATHS } from '../../configs/routePaths';
@@ -7,13 +7,19 @@ import { useExpandedFoldersAtom } from '../../stores/useExpandedFoldersAtom';
 import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
 import { useSelectedFileAtom } from '../../stores/useSelectedFileAtom';
 import { TreeNode } from './components/TreeNode';
+import { useFileAutoLoad } from './hooks/useFileAutoLoad';
+import { useFileOperationEvents } from './hooks/useFileOperationEvents';
+import { useWorkspaceAutoLoad } from './hooks/useWorkspaceAutoLoad';
 
 export function FolderTreePage() {
   const navigate = useNavigate();
   const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
-  const { selectedFolderDir, setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
-  const { selectedFilePath, setSelectedFilePath, setCurrentContent, setOriginalContent } =
-    useSelectedFileAtom();
+  const { setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
+  const { setSelectedFilePath } = useSelectedFileAtom();
+
+  useWorkspaceAutoLoad();
+  useFileAutoLoad();
+  useFileOperationEvents();
 
   const handleCollapseAll = () => {
     if (expandedFolders.length > 0) {
@@ -40,38 +46,6 @@ export function FolderTreePage() {
       y: event.clientY,
     });
   };
-
-  useEffect(() => {
-    const handleOpenProject = async (path: string) => {
-      const openProjectResponse = await window.electronAPI.filePublisher.openWorkspace(path);
-      if (openProjectResponse.success) {
-        setFolderTree(openProjectResponse.tree || []);
-      } else {
-        // Handle error (e.g., show a notification)
-        console.error('Failed to open project:', openProjectResponse.error);
-      }
-    };
-
-    if (selectedFolderDir) handleOpenProject(selectedFolderDir);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFolderDir]);
-
-  useEffect(() => {
-    const handleOpenFile = async (dir: string, path: string) => {
-      const content = await window.electronAPI.filePublisher.openFile(`${dir}/${path}`);
-      if (content.success) {
-        setOriginalContent(content.content || '');
-        setCurrentContent(content.content || '');
-        setSelectedFilePath(path);
-      } else {
-        // Handle error (e.g., show a notification)
-        console.error('Failed to open file:', content.error);
-      }
-    };
-
-    if (selectedFilePath) handleOpenFile(selectedFolderDir, selectedFilePath);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFilePath]);
 
   return (
     <div className="w-100 h-100">

@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { ContextMenuPublisher } from '../app/modules/context-menu/context-menu.publisher';
+import { DialogPublisher } from '../app/modules/dialog/dialog.publisher';
 import { FilePublisher } from '../app/modules/file/file.publisher';
 import { PlatformPublisher } from '../app/modules/platform/platform.publisher';
 import { StoragePublisher } from '../app/modules/storage/storage.publisher';
@@ -13,6 +14,7 @@ class ElectronPreloadProcess {
     private readonly filePublisher: FilePublisher,
     private readonly storagePublisher: StoragePublisher,
     private readonly contextMenuPublisher: ContextMenuPublisher,
+    private readonly dialogPublisher: DialogPublisher,
   ) {}
 
   public start = () => {
@@ -41,6 +43,7 @@ class ElectronPreloadProcess {
       filePublisher: this.filePublisher,
       storagePublisher: this.storagePublisher,
       contextMenuPublisher: this.contextMenuPublisher,
+      dialogPublisher: this.dialogPublisher,
     };
   };
 }
@@ -52,6 +55,7 @@ const electronPreloadProcess = new ElectronPreloadProcess(
   new FilePublisher(),
   new StoragePublisher(),
   new ContextMenuPublisher(),
+  new DialogPublisher(),
 );
 
 // Start the preload process

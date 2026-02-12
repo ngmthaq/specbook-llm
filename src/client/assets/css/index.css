@@ -1,3 +1,7 @@
+:root {
+  --c-prompt-dialog-z-index: 1050;
+}
+
 .h-32px {
   height: 32px;
 }

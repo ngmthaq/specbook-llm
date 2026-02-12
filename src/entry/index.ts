@@ -2,6 +2,7 @@ import { app } from 'electron';
 import { Subscriber } from '../app/core/subscriber';
 import { AppSubscriber } from '../app/modules/app/app.subscriber';
 import { ContextMenuSubscriber } from '../app/modules/context-menu/context-menu.subscriber';
+import { DialogSubscriber } from '../app/modules/dialog/dialog.subscriber';
 import { FileSubscriber } from '../app/modules/file/file.subscriber';
 import { PlatformSubscriber } from '../app/modules/platform/platform.subscriber';
 import { StorageSubscriber } from '../app/modules/storage/storage.subscriber';
@@ -40,6 +41,7 @@ const electronMainProcess = new ElectronMainProcess(new AppSubscriber(), [
   new FileSubscriber(),
   new StorageSubscriber(),
   new ContextMenuSubscriber(),
+  new DialogSubscriber(),
 ]);
 
 // Start the main process
