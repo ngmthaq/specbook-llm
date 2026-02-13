@@ -35,14 +35,14 @@ export class DialogSubscriber extends Subscriber {
           },
         });
         const params = new URLSearchParams({
-          initPromptEvent: MAIN_TO_RENDERER_EVENTS.INIT_PROMPT,
+          openPromptDialogEvent: MAIN_TO_RENDERER_EVENTS.OPEN_PROMPT_DIALOG,
           responseEvent: uniqueResponseEvent,
         });
         promptWindow.loadURL(
           `file://${path.resolve(__dirname, './assets/html/prompt.html')}?${params.toString()}`,
         );
         promptWindow.webContents.once('did-finish-load', () => {
-          promptWindow.webContents.send(MAIN_TO_RENDERER_EVENTS.INIT_PROMPT, {
+          promptWindow.webContents.send(MAIN_TO_RENDERER_EVENTS.OPEN_PROMPT_DIALOG, {
             message: message,
             defaultValue: defaultValue || '',
           });

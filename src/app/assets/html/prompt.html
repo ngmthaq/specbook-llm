@@ -42,11 +42,11 @@
     <script>
       const { ipcRenderer } = require('electron');
       const params = new URLSearchParams(window.location.search);
-      const initPromptEvent = params.get('initPromptEvent');
+      const openPromptDialogEvent = params.get('openPromptDialogEvent');
       const responseEvent = params.get('responseEvent');
 
       // Receive initial data from main process
-      ipcRenderer.on(initPromptEvent, (event, { message, defaultValue }) => {
+      ipcRenderer.on(openPromptDialogEvent, (event, { message, defaultValue }) => {
         document.getElementById('message').textContent = message;
         document.getElementById('input').value = defaultValue;
         document.getElementById('input').focus();
