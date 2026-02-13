@@ -30,7 +30,7 @@ export function useFileOperationEvents() {
     const parentPath = args[1] as string | undefined;
     const folderName = await electronAPI.dialogPublisher.prompt('Enter folder name:');
     if (!folderName) return;
-    const basePath = `${selectedFolderDir}/${parentPath}`;
+    const basePath = parentPath ? `${selectedFolderDir}/${parentPath}` : selectedFolderDir;
     const folderPath = `${basePath}/${folderName}`;
     const result = await electronAPI.filePublisher.createFolder(folderPath);
     if (result.success) {

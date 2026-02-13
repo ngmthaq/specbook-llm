@@ -48,9 +48,10 @@ export class DialogSubscriber extends Subscriber {
           });
           promptWindow.show();
         });
+
         return new Promise((resolve) => {
           const responseHandler = (event: Electron.IpcMainEvent, value: string | null) => {
-            resolve(value);
+            resolve(value || '');
             promptWindow.close();
           };
           ipcMain.once(uniqueResponseEvent, responseHandler);
