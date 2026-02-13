@@ -2,13 +2,15 @@ import { useCallback } from 'react';
 import { useFolderTreeAtom } from '../../../stores/useFolderTreeAtom';
 import { useSelectedFileAtom } from '../../../stores/useSelectedFileAtom';
 
+const electronAPI = window.electronAPI;
+
 export function useWorkspaceOperations() {
   const { selectedFolderDir, setFolderTree } = useFolderTreeAtom();
   const { setSelectedFilePath, setCurrentContent, setOriginalContent } = useSelectedFileAtom();
 
   const refreshWorkspace = useCallback(async () => {
     if (selectedFolderDir) {
-      const result = await window.electronAPI.filePublisher.openWorkspace(selectedFolderDir);
+      const result = await electronAPI.filePublisher.openWorkspace(selectedFolderDir);
       if (result.success) {
         setFolderTree(result.tree || []);
       } else {
@@ -19,7 +21,7 @@ export function useWorkspaceOperations() {
 
   const openWorkspace = useCallback(
     async (path: string) => {
-      const response = await window.electronAPI.filePublisher.openWorkspace(path);
+      const response = await electronAPI.filePublisher.openWorkspace(path);
       if (response.success) {
         setFolderTree(response.tree || []);
       } else {
@@ -31,7 +33,7 @@ export function useWorkspaceOperations() {
 
   const openFile = useCallback(
     async (dir: string, path: string) => {
-      const content = await window.electronAPI.filePublisher.openFile(`${dir}/${path}`);
+      const content = await electronAPI.filePublisher.openFile(`${dir}/${path}`);
       if (content.success) {
         setOriginalContent(content.content || '');
         setCurrentContent(content.content || '');

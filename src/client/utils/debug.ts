@@ -1,14 +1,16 @@
+const electronAPI = window.electronAPI;
+
 export async function debug(...args: unknown[]) {
-  const isDev = await window.electronAPI.platformPublisher.isDev();
+  const isDev = await electronAPI.platformPublisher.isDev();
   if (isDev) console.log(`[DEBUG] ${new Date().toISOString()}`, ...args);
 }
 
 export async function showVersionInfo() {
   const [appVersion, nodeVersion, electronVersion, chromeVersion] = await Promise.all([
-    window.electronAPI.versionPublisher.getAppVersion(),
-    window.electronAPI.versionPublisher.getNodeVersion(),
-    window.electronAPI.versionPublisher.getElectronVersion(),
-    window.electronAPI.versionPublisher.getChromeVersion(),
+    electronAPI.versionPublisher.getAppVersion(),
+    electronAPI.versionPublisher.getNodeVersion(),
+    electronAPI.versionPublisher.getElectronVersion(),
+    electronAPI.versionPublisher.getChromeVersion(),
   ]);
 
   console.log('App Version:', appVersion);

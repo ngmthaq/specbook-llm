@@ -2,9 +2,11 @@ import { app, nativeImage } from 'electron';
 import path from 'path';
 
 export class Configs {
-  public static mainWindow: Electron.BrowserWindow | null = null;
+  public static mainWindow: Electron.BrowserWindow | undefined = undefined;
 
-  public static tray: Electron.Tray | null = null;
+  public static childWindows: Record<string, Electron.BrowserWindow> = {};
+
+  public static tray: Electron.Tray | undefined = undefined;
 
   public static trayIconPath = path.resolve(__dirname, './assets/img/electron.png');
 

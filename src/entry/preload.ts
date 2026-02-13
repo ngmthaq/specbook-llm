@@ -26,11 +26,14 @@ class ElectronPreloadProcess {
   };
 
   private on = (channel: string, callback: PreloadEventCallback) => {
-    ipcRenderer.addListener(channel, (event, ...args) => callback(...args));
+    ipcRenderer.addListener(channel, callback);
+    return () => {
+      ipcRenderer.removeListener(channel, callback);
+    };
   };
 
   private off = (channel: string, callback: PreloadEventCallback) => {
-    ipcRenderer.removeListener(channel, (event, ...args) => callback(...args));
+    ipcRenderer.removeListener(channel, callback);
   };
 
   private exposeAPIs = () => {

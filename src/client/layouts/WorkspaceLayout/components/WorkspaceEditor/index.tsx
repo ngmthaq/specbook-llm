@@ -8,6 +8,8 @@ import { useFolderTreeAtom } from '../../../../stores/useFolderTreeAtom';
 import { useSelectedFileAtom } from '../../../../stores/useSelectedFileAtom';
 import { useThemeAtom } from '../../../../stores/useThemeAtom';
 
+const electronAPI = window.electronAPI;
+
 export function WorkspaceEditor() {
   const { theme } = useThemeAtom();
   const { selectedFolderDir } = useFolderTreeAtom();
@@ -22,7 +24,7 @@ export function WorkspaceEditor() {
   const [isFocus, setIsFocus] = useState(false);
 
   const handleSaveFile = useCallback(async () => {
-    const saveFileResponse = await window.electronAPI.filePublisher.saveFile(
+    const saveFileResponse = await electronAPI.filePublisher.saveFile(
       `${selectedFolderDir}/${selectedFilePath}`,
       currentContent,
     );

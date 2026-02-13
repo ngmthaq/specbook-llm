@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      * {
+        padding: 0px;
+        margin: 0px;
+      }
+      body {
+        font-family: sans-serif;
+        padding: 12px;
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      input {
+        width: 100%;
+        padding: 6px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      button {
+        padding: 6px 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="message">Enter a value:</p>
+    <input type="text" id="input" />
+    <div class="buttons">
+      <button id="cancel">Cancel</button>
+      <button id="ok">OK</button>
+    </div>
+
+    <script>
+      const { ipcRenderer } = require('electron');
+      const params = new URLSearchParams(window.location.search);
+      const initPromptEvent = params.get('initPromptEvent');
+      const responseEvent = params.get('responseEvent');
+
+      // Receive initial data from main process
+      ipcRenderer.on(initPromptEvent, (event, { message, defaultValue }) => {
+        document.getElementById('message').textContent = message;
+        document.getElementById('input').value = defaultValue;
+        document.getElementById('input').focus();
+        document.getElementById('input').select();
+      });
+
+      document.getElementById('ok').addEventListener('click', () => {
+        const value = document.getElementById('input').value;
+        ipcRenderer.send(responseEvent, value);
+      });
+
+      document.getElementById('cancel').addEventListener('click', () => {
+        ipcRenderer.send(responseEvent, null);
+      });
+
+      // Allow Enter/Escape key shortcuts
+      document.getElementById('input').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('ok').click();
+        if (e.key === 'Escape') document.getElementById('cancel').click();
+      });
+    </script>
+  </body>
+</html>

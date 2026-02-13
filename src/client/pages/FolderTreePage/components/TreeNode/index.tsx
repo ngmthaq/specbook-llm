@@ -7,6 +7,8 @@ import { useFolderTreeAtom } from '../../../../stores/useFolderTreeAtom';
 import { useSelectedFileAtom } from '../../../../stores/useSelectedFileAtom';
 import classes from './TreeNode.module.css';
 
+const electronAPI = window.electronAPI;
+
 export interface TreeNodeProps {
   node?: TreeNodeType;
   fullPath?: string;
@@ -62,7 +64,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
       );
       if (!confirmOpen) return;
     }
-    const content = await window.electronAPI.filePublisher.openFile(`${dir}/${path}`);
+    const content = await electronAPI.filePublisher.openFile(`${dir}/${path}`);
     if (content.success) {
       setOriginalContent(content.content || '');
       setCurrentContent(content.content || '');
@@ -87,7 +89,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
 
   const handleOpenFolderContextMenu: React.MouseEventHandler = async (event) => {
     event.stopPropagation();
-    await window.electronAPI.contextMenuPublisher.openFolderNodeContextMenu({
+    await electronAPI.contextMenuPublisher.openFolderNodeContextMenu({
       x: event.clientX,
       y: event.clientY,
       folderPath: fullPath,
@@ -96,7 +98,7 @@ export function TreeNode({ node, fullPath = '', level = 0 }: TreeNodeProps) {
 
   const handleOpenFileContextMenu: React.MouseEventHandler = async (event) => {
     event.stopPropagation();
-    await window.electronAPI.contextMenuPublisher.openFileNodeContextMenu({
+    await electronAPI.contextMenuPublisher.openFileNodeContextMenu({
       x: event.clientX,
       y: event.clientY,
       filePath: fullPath,

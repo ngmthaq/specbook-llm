@@ -11,6 +11,8 @@ import { useFileAutoLoad } from './hooks/useFileAutoLoad';
 import { useFileOperationEvents } from './hooks/useFileOperationEvents';
 import { useWorkspaceAutoLoad } from './hooks/useWorkspaceAutoLoad';
 
+const electronAPI = window.electronAPI;
+
 export function FolderTreePage() {
   const navigate = useNavigate();
   const { expandedFolders, setExpandedFolders } = useExpandedFoldersAtom();
@@ -41,7 +43,7 @@ export function FolderTreePage() {
 
   const handleOpenContextMenu: MouseEventHandler = async (event) => {
     event.stopPropagation();
-    await window.electronAPI.contextMenuPublisher.openFolderTreeContextMenu({
+    await electronAPI.contextMenuPublisher.openFolderTreeContextMenu({
       x: event.clientX,
       y: event.clientY,
     });

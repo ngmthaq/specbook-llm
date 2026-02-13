@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router';
 import { FULL_ROUTE_PATHS } from '../../configs/routePaths';
 import { useFolderTreeAtom } from '../../stores/useFolderTreeAtom';
 
+const electronAPI = window.electronAPI;
+
 export function WelcomePage() {
   const navigate = useNavigate();
   const { selectedFolderDir, setFolderTree, setSelectedFolderDir } = useFolderTreeAtom();
 
   const handleOpenProject = async () => {
-    const openProjectResponse = await window.electronAPI.filePublisher.openWorkspace();
+    const openProjectResponse = await electronAPI.filePublisher.openWorkspace();
     if (openProjectResponse.success) {
       setFolderTree(openProjectResponse.tree || []);
       setSelectedFolderDir(openProjectResponse.workspacePath || '');
@@ -20,7 +22,7 @@ export function WelcomePage() {
   };
 
   const handleCreateNewWorkspace = async () => {
-    const openProjectResponse = await window.electronAPI.filePublisher.createWorkspace();
+    const openProjectResponse = await electronAPI.filePublisher.createWorkspace();
     if (openProjectResponse.success) {
       setFolderTree(openProjectResponse.tree || []);
       setSelectedFolderDir(openProjectResponse.workspacePath || '');

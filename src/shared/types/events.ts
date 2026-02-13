@@ -1,1 +1,3 @@
-export type PreloadEventCallback = (...args: unknown[]) => void;
+import { IpcRendererEvent } from 'electron';
+
+export type PreloadEventCallback = (event: IpcRendererEvent, ...args: unknown[]) => void;
